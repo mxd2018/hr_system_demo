@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hr.mxd.dao.IEmployee">
+		<!-- `eid` varchar(50) NOT NULL,
+  			 `ename` varchar(50) DEFAULT NULL,
+ 			 `entrytime` date DEFAULT NULL,
+ 			 `department` int(11) DEFAULT NULL,
+ 			 `job` int(11) DEFAULT NULL, -->
+  
+  
+		<insert id="addEmployee" parameterType="Employee">
+			insert into employee(eid,ename,gender,entrytime,department,job) values(#{eid},#{ename},#{gender},#{entrytime},#{department},#{job})
+		</insert>
+		
+		<delete id="deleteEmployee" parameterType="String">
+			delete from employee where eid=#{eid}
+		</delete>	
+		
+		<update id="updateEmployee" parameterType="Employee">
+			update employee set ename=#{ename},gender=#{gender},entrytime=#{entrytime},department=#{department},job=#{job} where eid=#{eid}
+		</update>
+		
+		<resultMap type="Employee" id="EmployeeResultMap">
+			<association property="em_job" column="job" select="com.hr.mxd.dao.IJobs.selectJobById"></association>
+		</resultMap>
+		<select id="selectEmployeeByPage" parameterType="PageBean" resultMap="EmployeeResultMap">
+			select * from employee limit #{productindex},#{pagesize}
+		</select>
+		
+		<select id="selectAllEmployee" resultType="Employee">
+			select * from employee
+		</select>
+		
+		<select id="selectEmployeeById" parameterType="String" resultMap="EmployeeResultMap">
+			select * from employee where eid=#{eid}
+		</select>
+		
+		<select id="selectToltalNumber" resultType="int">
+			select count(*) from employee		
+		</select>
+		
+		
+		<select id="selectEmployeeByName" parameterType="Employee" resultType="Employee">
+			select * from employee where ename=#{ename}		
+		</select>
+		
+		<select id="findEmployeeByCondition" parameterType="java.util.Map" resultMap="EmployeeResultMap">
+			select * from employee 
+			<where>
+				<if test="department!=0 ">
+					and department=#{department}
+				</if>
+				<if test="job!=0">
+					and job=#{job}
+				</if>
+				<if test="ename!=null and ename!=''">
+					and ename=#{ename}
+				</if>
+			</where>
+			limit #{productindex},#{pagesize}
+		</select>
+		
+		<select id="findTotalNumberByCondition" parameterType="Employee" resultType="int">
+			select count(*) from employee 
+			<where>
+				<if test="department!=0 ">
+					and department=#{department}
+				</if>
+				<if test="job!=0">
+					and job=#{job}
+				</if>
+				<if test="ename!=null and ename!=''">
+					and ename=#{ename}
+				</if>
+			</where>
+			
+		</select>
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hr.mxd.dao.IJobs">
+		<insert id="addJob" parameterType="Jobs">
+			insert into jobs(jname,departmentid) values(#{jname},#{departmentid})
+		</insert>
+		
+		<delete id="deleteJobById" parameterType="int">
+			delete from jobs where jid=#{jid}
+		</delete>	
+		
+		<update id="updateJob" parameterType="Jobs">
+			update jobs set jname=#{jname},departmentid=#{departmentid} where jid=#{jid}
+		</update>
+		
+		<resultMap type="Jobs" id="JobResultMap">
+			<association property="department" column="departmentid" select="com.hr.mxd.dao.IDepartments.selectDepartmentById"></association>
+		</resultMap>
+		<select id="selectJobByPage" parameterType="PageBean" resultMap="JobResultMap">
+			select * from jobs limit #{productindex},#{pagesize}
+		</select>
+		
+		<select id="selectAllJob" resultType="Jobs">
+			select * from jobs
+		</select>
+		
+		<select id="selectJobById" parameterType="int" resultMap="JobResultMap">
+			select * from jobs where jid=#{jid}
+		</select>
+		
+		<select id="selectTotalNumber" resultType="int">
+			select count(*) from jobs		
+		</select>
+		
+</mapper>
