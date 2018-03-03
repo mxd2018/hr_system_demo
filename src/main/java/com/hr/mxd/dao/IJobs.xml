@@ -4,7 +4,7 @@
 
 <mapper namespace="com.hr.mxd.dao.IJobs">
 		<insert id="addJob" parameterType="Jobs">
-			insert into jobs(jname,departmentid) values(#{jname},#{departmentid})
+			insert into jobs(jname,departmentid) values(#{jname},#{department.did})
 		</insert>
 		
 		<delete id="deleteJobById" parameterType="int">
@@ -15,6 +15,10 @@
 			update jobs set jname=#{jname},departmentid=#{departmentid} where jid=#{jid}
 		</update>
 		
+		<!-- 注意：
+			这里的column指的都是数据库中的字段，property才是实体类的属性
+			实体类中都不需要写关于外键的属性，如果要往数据库中插入外键值，就在from表单的name属性写 对象.值（外键值）即可，后台实体类的对象属性能接受到这个值 
+		-->
 		<resultMap type="Jobs" id="JobResultMap">
 			<association property="department" column="departmentid" select="com.hr.mxd.dao.IDepartments.selectDepartmentById"></association>
 		</resultMap>

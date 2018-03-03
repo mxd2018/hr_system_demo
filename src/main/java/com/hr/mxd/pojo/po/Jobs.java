@@ -9,7 +9,7 @@ public class Jobs {
 	
 	private int jid;
 	private String jname;
-	private int departmentid;
+	
 	private Departments department;
 	
 	public int getJid() {
@@ -24,12 +24,7 @@ public class Jobs {
 	public void setJname(String jname) {
 		this.jname = jname;
 	}
-	public int getDepartmentid() {
-		return departmentid;
-	}
-	public void setDepartmentid(int departmentid) {
-		this.departmentid = departmentid;
-	}
+	
 	public Departments getDepartment() {
 		return department;
 	}

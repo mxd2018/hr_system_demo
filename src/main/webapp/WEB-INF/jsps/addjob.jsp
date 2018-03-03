@@ -20,7 +20,7 @@
 			<tr>
 				<td>所属部门</td>
 				<td>
-					<select name="departmentid" id="departmentid">
+					<select name="department.did" id="departmentid">
 						<c:forEach items="${SessionDepartments}" var="department">
 							
 								<option value="${department.did }">${department.dname}</option>
